@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Config>
+   <Mail default="jwarnes@samaritan.org" recipients="jwarnes@gmail.com" />
+   <Servers>
+      <Server name="Server 1" spaceValue="5" spaceType="0">
+         <Folder path="C:\Backups" recurse="0" />
+         <Folder path="C:\BackupsSub" recurse="1" />
+      </Server>
+   </Servers>
+</Config>
