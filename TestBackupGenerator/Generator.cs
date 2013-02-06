@@ -12,10 +12,18 @@ namespace TestBackupGenerator
     {
         private List<string> paths;
 
-        public void Start()
+        public void Start(Dictionary<string,string> args)
         {
             paths = new List<string>();
-            LoadConfiguration();
+            var configPath = (args.ContainsKey("config")) ? args["config"] : "config.xml";
+
+            if (!File.Exists(configPath))
+            {
+                Console.WriteLine("No configuration file found!");
+                return;
+            }
+
+            LoadConfiguration(configPath);
             GenerateBackups();
         }
 
@@ -55,12 +63,20 @@ namespace TestBackupGenerator
                 var writepath = string.Format("{0}\\{1}.tib", path, DateTime.Now.ToString("MMM-dd-yyyy-fffffff"));
 
                 //50% failure rate per folder!
-                if (rand.Next(1, 3) > 1)
+                if (rand.NextDouble() >= 0.5)
                 {
                     //write a file to disk with a filesize between 1-3gb
                     using (var fs = new FileStream(writepath, FileMode.Create, FileAccess.Write, FileShare.None))
                     {
-                        fs.SetLength(1024*1024*1024*gb);
+                        try
+                        {
+                            fs.SetLength(1024 * 1024 * 1024 * gb);
+                        }
+                        catch (Exception)
+                        {
+                            fs.SetLength(1024 * 1024 * 1024);
+                        }
+                        
                     }
                     Console.WriteLine("\tWriting {0} ({1}Gb)", writepath, gb);
                 }

@@ -9,8 +9,7 @@ namespace TestBackupGenerator
     {
         static void Main(string[] args)
         {
-            new Generator().Start();
-            Console.ReadKey();
+            new Generator().Start(ClaParser.GetArgs(args));
         }
 
 
